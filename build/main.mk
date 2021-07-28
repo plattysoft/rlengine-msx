@@ -29,13 +29,17 @@ export ENGINE_LDFLAGS := -rc
 export ENGINE_ASFLAGS := -plosff
 
 export ARCH := $(shell uname)
-
 ifeq ($(ARCH), Darwin)
 export SDCC_ROOT := $(TOP)/prebuilts/darwin/sdcc_3.8.5
 export OPENMSX := /Applications/openMSX.app/Contents/MacOS/openmsx
 else
-export SDCC_ROOT := $(TOP)/prebuilts/x86_64/sdcc_3.8.5
-export OPENMSX := /usr/bin/openmsx
+  export OPENMSX := /usr/bin/openmsx
+  
+  ifeq ($(shell arch), armv7l)
+    export SDCC_ROOT := $(TOP)/prebuilts/armv7l/sdcc_3.8.0
+  else
+    export SDCC_ROOT := $(TOP)/prebuilts/x86_64/sdcc_3.8.5
+  endif
 endif
 export CROSS_CC := $(SDCC_ROOT)/bin/sdcc
 export CROSS_AS := $(SDCC_ROOT)/bin/sdasz80
